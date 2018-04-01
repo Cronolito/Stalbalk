@@ -21,10 +21,7 @@ class AddISectionDialog(wx.Dialog):
             self.section_dimensions = section_dimensions
 
 
-<<<<<<< HEAD
         self.text_input_widgets = []
-=======
->>>>>>> 7f38f298debb0f77e0423e95acc23e74eb22b53f
         self.create_input_widgets()
         self.create_buttons_sizer()
 
@@ -44,19 +41,12 @@ class AddISectionDialog(wx.Dialog):
             sizer = wx.StaticBoxSizer(outher_box, wx.HORIZONTAL)
 
             for text in labels:
-<<<<<<< HEAD
                 text_on_panel = wx.StaticText(self.panel, 0, text)
                 text_input = wx.TextCtrl(self.panel, wx.ID_ANY, str(self.section_dimensions[i]), size = (50,-1))
                 sizer.Add(text_on_panel, 0, wx.ALL, 5)
                 sizer.Add(text_input, 0, wx.ALL, 5)
                 self.text_input_widgets.append(text_input)
                 i+=1
-=======
-                text_on_panel = wx.StaticText(self, -1, text, 0, wx.ALL, 5)
-                text_control = wx.TextCtrl(self.panel, wx.ID_ANY, '')
-                sizer.Add(text_on_panel, 0, wx.ALL, 5)
-                sizer.Add(text_control , 0, wx.ALL, 5)
->>>>>>> 7f38f298debb0f77e0423e95acc23e74eb22b53f
 
             self.main_sizer.Add(sizer, 0, wx.ALL, 5)
 
