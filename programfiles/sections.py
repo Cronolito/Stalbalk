@@ -30,15 +30,15 @@ class BeamSection:
 ## Klassen skapar en I-section. indata ges i mm men lagras i SI
 class ISection(BeamSection):
 
-    def __init__(self, name, top_flange_width, top_flange_thickness, web_thickness, web_height, bottom_flange_width, bottom_flange_thickness):
+    def __init__(self, name, top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness):
         BeamSection.__init__(self, name)
         #TODO: Lägg in så amn inte kan mata in 0 eller negativa data som indata
-        self.top_flange_width = top_flange_width/1000.
-        self.top_flange_thickness = top_flange_thickness/1000.
-        self.web_thickness = web_thickness/1000.
-        self.web_height = web_height/1000.
-        self.bottom_flange_width = bottom_flange_width/1000.
-        self.bottom_flange_thickness = bottom_flange_thickness/1000.
+        self.top_flange_width = float(top_flange_width)/1000.
+        self.top_flange_thickness = float(top_flange_thickness)/1000.
+        self.web_thickness = float(web_thickness)/1000.
+        self.web_height = float(web_height)/1000.
+        self.bottom_flange_width = float(bottom_flange_width)/1000.
+        self.bottom_flange_thickness = float(bottom_flange_thickness)/1000.
 
         self.top_bending_stiffness = None
         self.bottom_bending_stiffness = None
@@ -49,6 +49,7 @@ class ISection(BeamSection):
         # self.bot_section_class = None
         #
         self.calculate_beam_properties()
+
 
     ## Metoden kallar på alla undermetoder
     def calculate_beam_properties(self):
@@ -96,6 +97,10 @@ class ISection(BeamSection):
             self.bottom_bending_stiffness = self.moment_of_inertia/float(self.cog)
         else:
             raise ValueError('Cannot calculate bending stiffness, parameters missing')
+
+    ## Metodern returnerar sektionens dimensioner
+    def get_dimensions(self):
+        return [self.top_flange_width*1000, self.top_flange_thickness*1000, self.web_height*1000, self.web_thickness*1000, self.bottom_flange_width*1000, self.bottom_flange_thickness*1000]
 
     ## Metoden beräknar balksnittets tvärsnittsklass med input av moment och normalkraft i SI-enheter
     def calculate_section_class(self, M, N, f_y):

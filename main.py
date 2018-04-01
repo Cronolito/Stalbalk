@@ -22,8 +22,8 @@ class NameConvention:
 
 if __name__ == '__main__':
     #Start mainloop
-    app = wx.App(redirect=True,filename="Stalbalk.log")
-    # app = wx.App()
+    # app = wx.App(redirect=True,filename="Stalbalk.log")
+    app = wx.App()
     frame = gui.MainFrame()
     frame.Show()
     app.MainLoop()

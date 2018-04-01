@@ -7,6 +7,7 @@ import wx
 from mainpanel import  MainPanel
 from collections import OrderedDict
 from sectiondialog import AddISectionDialog
+import programfiles as pf
 
 
 class MainFrame(wx.Frame):
@@ -17,6 +18,8 @@ class MainFrame(wx.Frame):
         self.panel = MainPanel(self)
 
         self.create_menus()
+
+        self.beamObject = pf.beam.Beam('Balknamn')
 
     def create_menus(self):
         """Innehåller menydatan"""
@@ -43,6 +46,20 @@ class MainFrame(wx.Frame):
 
 
     def on_add_section(self, event):
-        dialog = AddISectionDialog(self)
-        dialog.Show()
+        #hät är jag, skicka med och ta emot dimensioner. Skriv i sections.
+        if not self.beamObject.sections:
+            dialog = AddISectionDialog(self, None)
+
+        else:
+            section_dimensions = self.beamObject.sections['New'].get_dimensions()
+            dialog = AddISectionDialog(self, section_dimensions)
+
+        dialog.ShowModal()
+        top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness = dialog.section_dimensions
+        self.beamObject.add_section('New', top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness)
+        dialog.Destroy()
+
+        print 'Dimensions: {}'.format(self.beamObject.sections['New'].get_dimensions())
+        print 'Area: {} mm2'.format(self.beamObject.sections['New'].area*1000*1000)
+        print 'I: {} m4'.format(self.beamObject.sections['New'].moment_of_inertia)
 
