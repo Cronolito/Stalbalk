@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "C:/github/Stalbalk/main.py", line 27, in <module>
+    frame = gui.MainFrame()
+  File "C:\github\Stalbalk\gui\mainframe.py", line 15, in __init__
+    wx.Frame.__init__(self, None, title='Stålbalk', size=(600, 600))
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xe5 in position 2: invalid continuation byte
+Traceback (most recent call last):
+  File "C:/github/Stalbalk/main.py", line 27, in <module>
+    frame = gui.MainFrame()
+  File "C:\github\Stalbalk\gui\mainframe.py", line 15, in __init__
+    wx.Frame.__init__(self, None, title='Stålbalk', size=(600, 600))
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xe5 in position 2: invalid continuation byte
