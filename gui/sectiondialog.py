@@ -6,6 +6,7 @@
 import wx
 from collections import OrderedDict
 
+
 class AddISectionDialog(wx.Dialog):
 
     def __init__(self, parent, section_dimensions):
@@ -36,7 +37,7 @@ class AddISectionDialog(wx.Dialog):
                                    ('Liv', ['Höjd [mm]', 'Tjocklek [mm]']),
                                    ('Underfläns',['Bredd [mm]', 'Tjocklek [mm]'])])
         i = 0
-        for key, labels in widget_dict.iteritems():
+        for key, labels in widget_dict.items():
             outher_box = wx.StaticBox(self, -1, key)
             sizer = wx.StaticBoxSizer(outher_box, wx.HORIZONTAL)
 

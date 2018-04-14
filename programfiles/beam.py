@@ -3,8 +3,8 @@
 # @author David Karlsson.
 # @date 2017-09-08.
 
-from sections import ISection
-from material import Material
+from .sections import ISection
+from .material import Material
 
 ## Klassen  är huvudobjektet beskriver en balk och ska innehålla ett material samt minst en sektion och längddata
 class Beam:

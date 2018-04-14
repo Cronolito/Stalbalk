@@ -104,6 +104,7 @@ class ISection(BeamSection):
 
     ## Metoden beräknar balksnittets tvärsnittsklass med input av moment och normalkraft i SI-enheter
     def calculate_section_class(self, M, N, f_y):
+        #TODO: Fixa denna metod
         epsilon = sqrt(235e6/f_y)
 
         #Liv

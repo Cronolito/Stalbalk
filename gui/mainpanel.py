@@ -5,11 +5,10 @@
 
 import wx
 
+
 class MainPanel(wx.Panel):
 
-
     def __init__(self, parent):
-
-        wx.Panel.__init__(self, parent=parent, size=(600,350))
+        wx.Panel.__init__(self, parent=parent, size=(600, 350))
 
         # self.SetBackgroundColour('White')
