@@ -25,7 +25,11 @@ class MainFrame(wx.Frame):
         """Innehåller menydatan"""
         menu_data = OrderedDict()
         menu_data['Arkiv'] = (('Avsluta', 'Avslutar programmet', self.on_exit),)
-        menu_data['Profil'] = (('Importera sektion', 'Importerar standardprofiler från bibliotek', self.on_import_section), ('Lägg till I-profil', 'Adds a section to the session', self.on_add_Isection), )
+        menu_data['Profil'] = (('Importera sektion', 'Importerar standardprofiler från bibliotek', self.on_import_section),
+                               ('Lägg till I-profil', 'Lägger till en ny I-sektion', self.on_add_Isection),
+                               ('Modifiera sektion', 'Modifiera en tillagd sektion', self.on_modify_section),)
+        menu_data['Last'] = (('Importera tvärkraft', 'Importerar tvärkraftskurva från textfil', self.on_import_shear),
+                             ('Importera böjmoment', 'Importerar momentkurva från textfil', self.on_import_moment),)
 
         #Skapa menubaren
         menu_bar = wx.MenuBar()
@@ -45,23 +49,32 @@ class MainFrame(wx.Frame):
         self.Close(True)
 
 
-    #Lägg till namn på sektion så man kan välja i lista.
     def on_add_Isection(self, event):
-        if not self.beamObject.sections:
-            dialog = AddISectionDialog(self, None)
-
-        else:
-            section_dimensions = self.beamObject.sections['New'].get_dimensions()
-            dialog = AddISectionDialog(self, section_dimensions)
-
-        dialog.ShowModal()
-        top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness = dialog.section_dimensions
-        self.beamObject.add_section('New', top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness)
+        dialog = AddISectionDialog(self, None, 'ISektion')
+        if dialog.ShowModal() == wx.ID_OK:
+            section_name, top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness = dialog.output
+            self.beamObject.add_section(section_name, top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness)
         dialog.Destroy()
 
-        print('Dimensions: {}'.format(self.beamObject.sections['New'].get_dimensions()))
-        print('Area: {} mm2'.format(self.beamObject.sections['New'].area*1000*1000))
-        print('I: {} m4'.format(self.beamObject.sections['New'].moment_of_inertia))
+        #provisorisk data
+        print('Sections')
+        for key in self.beamObject.sections.keys():
+            print(key)
+            print('Dimensions: {}'.format(self.beamObject.sections[key].get_dimensions()))
+            print('Area: {} mm2'.format(self.beamObject.sections[key].area*1000*1000))
+            print('I: {} m4'.format(self.beamObject.sections[key].moment_of_inertia))
+
+    def on_modify_section(self, event):
+        #Dialogen är en vallista där man väljer vilken dialog man kommer till
+        # section_dimensions = self.beamObject.sections['New'].get_dimensions()
+        # dialog = AddISectionDialog(self, section_dimensions, self.beamObject.sections)
+        pass
 
     def on_import_section(self, event):
+        pass
+
+    def on_import_moment(self, event):
+        pass
+
+    def on_import_shear(self, event):
         pass

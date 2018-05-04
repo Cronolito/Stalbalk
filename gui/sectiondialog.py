@@ -9,7 +9,7 @@ from collections import OrderedDict
 
 class AddISectionDialog(wx.Dialog):
 
-    def __init__(self, parent, section_dimensions):
+    def __init__(self, parent, section_name, section_dimensions):
         wx.Dialog.__init__(self, parent, title = "Lägg till section")
         self.panel = wx.Panel(self)
 
@@ -18,8 +18,10 @@ class AddISectionDialog(wx.Dialog):
         #Lista med följande ordning: Böf, töf, hlv, tliv, buf, tuf
         if type(section_dimensions) != list:
             self.section_dimensions = [300, 10, 400, 8, 350, 12]
+            self.section_name = 'New'
         else:
             self.section_dimensions = section_dimensions
+            self.section_name = section_name
 
 
         self.text_input_widgets = []
@@ -32,7 +34,16 @@ class AddISectionDialog(wx.Dialog):
 
 
     def create_input_widgets(self):
+        #Skapa namnraden
+        outher_box = wx.StaticBox(self, -1, 'Namn')
+        sizer = wx.StaticBoxSizer(outher_box, wx.HORIZONTAL)
+        text_input = wx.TextCtrl(self.panel, wx.ID_ANY, self.section_name, size=(270, -1))
+        sizer.Add(text_input, 0, wx.ALL, 5)
+        self.text_input_widgets.append(text_input)
 
+        self.main_sizer.Add(sizer, 0, wx.ALL, 5)
+
+        #skapa resterande indatafält
         widget_dict = OrderedDict([('Överfläns', ['Bredd [mm]', 'Tjocklek [mm]']),
                                    ('Liv', ['Höjd [mm]', 'Tjocklek [mm]']),
                                    ('Underfläns',['Bredd [mm]', 'Tjocklek [mm]'])])
@@ -66,10 +77,11 @@ class AddISectionDialog(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.on_cancel, cancel_btn)
 
     def on_ok(self, event):
-        for i, obj in enumerate(self.text_input_widgets):
-            self.section_dimensions[i] = obj.GetValue()
-        self.Close()
-
+        self.output = []
+        for obj in self.text_input_widgets:
+            self.output.append(obj.GetValue())
+        #Justerar vad showmodal ska returna.
+        self.EndModal(wx.ID_OK)
 
     def on_cancel(self, event):
         self.Close()
