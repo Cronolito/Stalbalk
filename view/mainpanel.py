@@ -5,6 +5,7 @@
 
 import wx
 from pubsub import pub
+from math import ceil
 from collections import OrderedDict
 
 
@@ -16,6 +17,8 @@ class MainPanel(wx.Panel):
         # self.SetBackgroundColour('White')
         #Subscribes
         pub.subscribe(self.pub_on_set_choices, 'new_section_added')
+        pub.subscribe(self.pub_on_get_section_data, 'section.data')
+        self.chosen_section_parameters = {}
 
         self.main_sizer = wx.BoxSizer(wx.VERTICAL)
         self.init_section_ui()
@@ -59,15 +62,28 @@ class MainPanel(wx.Panel):
     def pub_on_set_choices(self, section_names):
         self.section_choice_widget.SetItems(section_names)
 
+    def pub_on_get_section_data(self, section_data):
+        self.chosen_section_parameters = section_data
 
-    # --------------Eventmetoder--------------------
+
+        # --------------Eventmetoder--------------------
 
     # Metoden uppdaterar UIt med nya värden då ny sektion har valts
     def on_section_choice(self, event):
         chosen_section_name = self.section_choice_widget.GetString(self.section_choice_widget.GetSelection())
         print(chosen_section_name+' är vald i ui')
         # Todo: Hämta nu all data och uppdatera uit
-        import random
-        from math import ceil
-        for item in self.widget_dict.values():
-            item.SetLabel(str(ceil(random.random()*100)/100))
+        pub.sendMessage('section.get_data', section_name=chosen_section_name)
+
+        for key, item in self.widget_dict.items():
+            try:
+                print(key.lower())
+                item.SetLabel(str(ceil(self.chosen_section_parameters[key.lower()]*100)/100))
+            except:
+                print('Hittar inte värde')
+
+        #
+        # import random
+        #
+        # for item in self.widget_dict.values():
+        #     item.SetLabel(str(ceil(random.random()*100)/100))

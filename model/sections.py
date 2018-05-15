@@ -98,10 +98,6 @@ class ISection(BeamSection):
         else:
             raise ValueError('Cannot calculate bending stiffness, parameters missing')
 
-    ## Metodern returnerar sektionens dimensioner
-    def get_dimensions(self):
-        return [self.top_flange_width*1000, self.top_flange_thickness*1000, self.web_height*1000, self.web_thickness*1000, self.bottom_flange_width*1000, self.bottom_flange_thickness*1000]
-
     ## Metoden beräknar balksnittets tvärsnittsklass med input av moment och normalkraft i SI-enheter
     def calculate_section_class(self, M, N, f_y):
         #TODO: Fixa denna metod
@@ -113,5 +109,21 @@ class ISection(BeamSection):
             c_t = self.web_height/float(self.web_thickness)
 
         #Överfläns
+
+    ## Metodern returnerar sektionens dimensioner i mm
+    def get_dimensions(self):
+        return [self.top_flange_width*1000, self.top_flange_thickness*1000, self.web_height*1000, self.web_thickness*1000, self.bottom_flange_width*1000, self.bottom_flange_thickness*1000]
+
+    ## Metoden returnerar sektionsdata som ett dictionary
+    def get_section_data(self):
+        section_data = {}
+        section_data['area'] = self.area
+        section_data['web area'] = self.area_web
+        section_data['centre of gravity'] = self.cog
+        section_data['moment of inertia'] = self.moment_of_inertia
+        section_data['top bending stiffness'] = self.top_bending_stiffness
+        section_data['bottom bending stiffness'] = self.bottom_bending_stiffness
+
+        return section_data
 
 

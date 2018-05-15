@@ -16,7 +16,7 @@ class Controller:
         self.view.Show()
 
         pub.subscribe(self.pub_on_add_i_section, 'section.addI')
-        pub.subscribe(self.pub_on_get_section_names, 'get_section_names')
+        pub.subscribe(self.pub_on_get_section, 'section.get_data')
 
     def pub_on_add_i_section(self, section_data):
         section_name, top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness = section_data
@@ -29,5 +29,5 @@ class Controller:
             print('Area: {} mm2'.format(self.model.sections[key].area*1000*1000))
             print('I: {} m4'.format(self.model.sections[key].moment_of_inertia))
 
-    def pub_on_get_section_names(self):
-        self.model.get_section_names()
+    def pub_on_get_section(self, section_name):
+        self.model.get_section_data(section_name)

@@ -29,3 +29,12 @@ class Beam:
     def create_material(self, name, f_y, E):
         #TODO: bör material kanske ligga under plåtar istället och en balk kan bestå av fler plåtar?
         self.material = Material( name, f_y, E)
+
+    ## Metoden returnerat ett sektionsobjekt som har sektionsnamnet
+    def get_section_data(self, section_name):
+        #Skicka meddelande med sektionsdatan
+        try:
+            data = self.sections[section_name].get_section_data()
+            pub.sendMessage('section.data', section_data=data)
+        except:
+            raise KeyError('No such section exists')
