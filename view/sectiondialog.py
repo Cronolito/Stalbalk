@@ -5,6 +5,7 @@
 
 import wx
 from collections import OrderedDict
+from pubsub import pub
 
 
 class AddISectionDialog(wx.Dialog):
@@ -80,8 +81,11 @@ class AddISectionDialog(wx.Dialog):
         self.output = []
         for obj in self.text_input_widgets:
             self.output.append(obj.GetValue())
+
+        pub.sendMessage('section.addI', section_data=self.output)
+        self.Close()
         #Justerar vad showmodal ska returna.
-        self.EndModal(wx.ID_OK)
+        # self.EndModal(wx.ID_OK)
 
     def on_cancel(self, event):
         self.Close()

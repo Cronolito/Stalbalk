@@ -3,8 +3,9 @@
 # @author David Karlsson.
 # @date 2018-03-29.
 
-import gui
+import view
 import wx
+from controller import Controller
 
 #Regler
 """
@@ -24,6 +25,5 @@ if __name__ == '__main__':
     #Start mainloop
     # app = wx.App(redirect=True,filename="Stalbalk.log")
     app = wx.App()
-    frame = gui.MainFrame()
-    frame.Show()
+    c = Controller()
     app.MainLoop()

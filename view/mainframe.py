@@ -4,10 +4,13 @@
 # @date 2018-03-29.
 
 import wx
+from pubsub import pub
+
 from .mainpanel import  MainPanel
 from collections import OrderedDict
 from .sectiondialog import AddISectionDialog
-import programfiles as pf
+from .editsectiondialog import EditSectionDialog
+import model as pf
 
 
 class MainFrame(wx.Frame):
@@ -19,7 +22,10 @@ class MainFrame(wx.Frame):
 
         self.create_menus()
 
-        self.beamObject = pf.beam.Beam('Balknamn')
+        self.section_names_list = []
+
+        pub.subscribe(self.pub_on_changed_section, 'new_section_added')
+
 
     def create_menus(self):
         """Innehåller menydatan"""
@@ -48,27 +54,17 @@ class MainFrame(wx.Frame):
     def on_exit(self, event):
         self.Close(True)
 
-
     def on_add_Isection(self, event):
-        dialog = AddISectionDialog(self, None, 'ISektion')
-        if dialog.ShowModal() == wx.ID_OK:
-            section_name, top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness = dialog.output
-            self.beamObject.add_section(section_name, top_flange_width, top_flange_thickness, web_height, web_thickness, bottom_flange_width, bottom_flange_thickness)
+        dialog = AddISectionDialog(self, None, 'I-Sektion')
+        dialog.ShowModal()
         dialog.Destroy()
 
-        #provisorisk data
-        print('Sections')
-        for key in self.beamObject.sections.keys():
-            print(key)
-            print('Dimensions: {}'.format(self.beamObject.sections[key].get_dimensions()))
-            print('Area: {} mm2'.format(self.beamObject.sections[key].area*1000*1000))
-            print('I: {} m4'.format(self.beamObject.sections[key].moment_of_inertia))
-
     def on_modify_section(self, event):
-        #Dialogen är en vallista där man väljer vilken dialog man kommer till
-        # section_dimensions = self.beamObject.sections['New'].get_dimensions()
-        # dialog = AddISectionDialog(self, section_dimensions, self.beamObject.sections)
-        pass
+        dialog = EditSectionDialog(self, self.section_names_list)
+        if dialog.ShowModal():
+            print('Vald sektion = '+dialog.chosen_section_name)
+            # Todo: Starta den sektionsdialogen som tillhör rätt sektion beroende på vilken klass sektionen är instans av
+        dialog.Destroy()
 
     def on_import_section(self, event):
         pass
@@ -78,3 +74,8 @@ class MainFrame(wx.Frame):
 
     def on_import_shear(self, event):
         pass
+
+# ---------------------- Pub listerners---------------
+    ## Metoden lyssnar på när en sektion har lagts till och uppdaterar listan med sektionsnamn
+    def pub_on_changed_section(self, section_names):
+        self.section_names_list = section_names
