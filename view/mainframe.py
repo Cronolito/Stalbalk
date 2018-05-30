@@ -36,6 +36,7 @@ class MainFrame(wx.Frame):
                                ('Modifiera sektion', 'Modifiera en tillagd sektion', self.on_modify_section),)
         menu_data['Last'] = (('Importera tvärkraft', 'Importerar tvärkraftskurva från textfil', self.on_import_shear),
                              ('Importera böjmoment', 'Importerar momentkurva från textfil', self.on_import_moment),)
+        menu_data['Balk'] = (('Definiera balk', 'Defineriar tvärsnitt längs längd', self.on_import_shear),)
 
         #Skapa menubaren
         menu_bar = wx.MenuBar()
