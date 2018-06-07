@@ -10,5 +10,6 @@ class Material:
         self.name = name
         self.f_y = f_y
         self.E = E
+        self.gamma_m0 = 1.0
 
         #TODO: Fy ska vara funktion av t.
