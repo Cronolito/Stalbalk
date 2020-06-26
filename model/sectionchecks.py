@@ -13,9 +13,12 @@ def normal_force_capacity(section, material):
     return section.area * material.f_y / material.gamma_m0
 
 
-##Funktionen beräknar och returnerar tvärkraftskapacitetn för en sektion med indata av sektionsobjekt samt materialobjekt
+##Funktionen beräknar och returnerar tvärkraftskapaciteten i huvudriktningen för en sektion med indata av sektionsobjekt samt materialobjekt
 def shear_capacity(section, material):
     pass
 
-def moment_capacity(sectiom, material):
+
+##Funktionen beräknar och returnerar momentkapaciteten i huvudriktningen för en sektion med indata av sektionsobjekt samt materialobjekt
+def moment_capacity(section, material):
     pass
+
